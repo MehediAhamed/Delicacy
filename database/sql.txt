@@ -1,0 +1,41 @@
+CREATE TABLE `Admin_Details` (
+	`First_Name` varchar(60),
+	`Last_Name` varchar(60),
+	`Email` varchar(60) NOT NULL,
+	`Password` varchar(60),
+	PRIMARY KEY (`Email`)
+);
+
+CREATE TABLE `Customer_Details` (
+	`First_Name` varchar(60),
+	`Last_Name` varchar(60),
+	`Email` varchar(60) NOT NULL,
+	`Password` varchar(60),
+	PRIMARY KEY (`Email`)
+);
+
+CREATE TABLE `Food_Menu` (
+	`Item_Code` varchar(60) NOT NULL,
+	`Name` varchar(60),
+	`Price` varchar(60),
+	`Image` longblob,
+	`Description` varchar(2000),
+	PRIMARY KEY (`Item_Code`)
+);
+
+Class.forName("com.mysql.cj.jdbc.Driver");
+Connection conn = DriverManager.getConnection(
+  "jdbc:mysql://ap-south.connect.psdb.cloud/delicacy?sslMode=VERIFY_IDENTITY",
+  "apike5c6fiy1rsrajmzv",
+  "pscale_pw_9QXgibEIlGrneTReXBvzn80n9OV8HW53gPMndCpo2mB");
+
+Class.forName("com.mysql.cj.jdbc.Driver");
+Connection conn = DriverManager.getConnection(
+  "jdbc:mysql://ap-south.connect.psdb.cloud/delicacy?sslMode=VERIFY_IDENTITY",
+  "apike5c6fiy1rsrajmzv",
+  "pscale_pw_9QXgibEIlGrneTReXBvzn80n9OV8HW53gPMndCpo2mB");
+
+Username:	apike5c6fiy1rsrajmzv
+Password:	pscale_pw_9QXgibEIlGrneTReXBvzn80n9OV8HW53gPMndCpo2mB
+Username:	apike5c6fiy1rsrajmzv
+Password:	pscale_pw_9QXgibEIlGrneTReXBvzn80n9OV8HW53gPMndCpo2mB

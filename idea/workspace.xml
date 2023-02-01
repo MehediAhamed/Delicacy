@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="b7af13fe-a6b0-4580-95f0-6e170773bc2c" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeStyleSettingsInfer">
+    <option name="done" value="true" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+        <option value="FxmlFile" />
+      </list>
+    </option>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="2" />
+  </component>
+  <component name="ProjectId" id="2KM9eKjvTqRAxk1qlf9E0gkVsha" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "F:/Delicacy/src/main/java/com/delicacy/delicacy",
+    "mysql-explain.agentPath": "C:\\Users\\mehed\\AppData\\Roaming\\JetBrains\\IdeaIE2022.2\\plugins\\mysql-explain-intellij-plugin\\lib\\mysql-explain-agent-1.0-jar-with-dependencies.jar",
+    "mysql-explain.existMysqlJar": "true",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\Delicacy\src\main\java\com\delicacy\delicacy" />
+      <recent name="F:\Delicacy\src\main\resources\com\delicacy\delicacy\Images" />
+      <recent name="F:\Delicacy\src\main\resources\com\delicacy\delicacy\view" />
+      <recent name="F:\Delicacy\src\main\java\controller" />
+      <recent name="F:\Delicacy\src\main\java" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="F:\Delicacy\src\main\resources\com\delicacy\delicacy\view" />
+      <recent name="F:\Delicacy\src\main\resources\com\delicacy\delicacy\Images" />
+      <recent name="F:\Delicacy\src\main\resources\com\delicacy\delicacy" />
+      <recent name="F:\Delicacy\src\main\java\com\delicacy\delicacy" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.delicacy.delicacy" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b7af13fe-a6b0-4580-95f0-6e170773bc2c" name="Changes" comment="" />
+      <created>1673773689101</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1673773689101</updated>
+    </task>
+    <servers />
+  </component>
+</project>
