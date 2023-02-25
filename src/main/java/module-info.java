@@ -8,6 +8,8 @@ module com.delicacy.delicacy {
     requires java.logging;
 
     requires java.sql;
+    requires javax.mail.api;
+
 
     opens com.delicacy.delicacy to javafx.fxml;
     exports com.delicacy.delicacy;

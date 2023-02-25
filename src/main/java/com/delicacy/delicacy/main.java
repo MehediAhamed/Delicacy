@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 
 public class main extends Application {
@@ -14,6 +15,8 @@ public class main extends Application {
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("view/splashscreen.fxml"));
         Scene scene = new Scene(root);
+        stage.setResizable(false);
+        stage.initStyle(StageStyle.UTILITY);
         stage.setScene(scene);
         stage.show();
     }

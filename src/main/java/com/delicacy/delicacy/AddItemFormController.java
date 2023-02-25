@@ -1,54 +1,45 @@
 package com.delicacy.delicacy;
-import javafx.beans.property.SimpleStringProperty;
 
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
-import javafx.scene.text.FontWeight;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
+import javafx.util.Callback;
+import javafx.util.Duration;
+import org.controlsfx.control.Notifications;
 
-import java.io.*;
-import java.sql.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.collections.ObservableList;
-
-import java.sql.SQLException;
-import java.util.ArrayList;
-
-
+import java.io.File;
+import java.io.FileInputStream;
 import java.net.URL;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import java.sql.*;
 import java.util.ResourceBundle;
 
 public class AddItemFormController implements Initializable{
+
+    @FXML
+    AnchorPane AD;
     public TextField txtItemId;
     public TextField txtDescription;
     public TextField txtUnitPrice;
     public TextField txtfoodname;
 
+
     public TableView <ItemDTO> tblItem;
     public TableColumn<ItemDTO,String> colItemId;
     public TableColumn<ItemDTO,String> colName;
     public TableColumn <ItemDTO,String>colPrice;
-    public TableColumn<ItemDTO,String> colImage;
+    public TableColumn <ItemDTO,ImageView> colImage;
     public TableColumn <ItemDTO,String>colDescription;
+
 
     private String itemCode;
 
@@ -74,9 +65,10 @@ public class AddItemFormController implements Initializable{
 
             while (rst.next()) {
 
-                allItems.add(new ItemDTO(rst.getString(1), rst.getString(2), rst.getString(3), rst.getString(5),"df"));
+                allItems.add(new ItemDTO(rst.getString(1), rst.getString(2), rst.getString(3), rst.getString(5), rst.getBlob(4)));
             }
             tblItem.setItems(allItems);
+            tblItem.refresh();
         } catch (ClassNotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
@@ -89,15 +81,77 @@ public class AddItemFormController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        loadAllItems();
+        colItemId.setCellFactory(new Callback <TableColumn<ItemDTO, String>, TableCell<ItemDTO, String>>() {
+            @Override
+            public TableCell<ItemDTO, String> call(TableColumn<ItemDTO, String> p) {
+                TableCell<ItemDTO, String> tc = new TableCell<ItemDTO, String>(){
+                    @Override
+                    public void updateItem(String item, boolean empty) {
+                        if (item != null){
+                            setText(item);
+                        }
+                    }
+                };
+                tc.setAlignment(Pos.CENTER);
+                return tc;
+            }
+        });
+        colName.setCellFactory(new Callback <TableColumn<ItemDTO, String>, TableCell<ItemDTO, String>>() {
+            @Override
+            public TableCell<ItemDTO, String> call(TableColumn<ItemDTO, String> p) {
+                TableCell<ItemDTO, String> tc = new TableCell<ItemDTO, String>(){
+                    @Override
+                    public void updateItem(String item, boolean empty) {
+                        if (item != null){
+                            setText(item);
+                        }
+                    }
+                };
+                tc.setAlignment(Pos.CENTER);
+                return tc;
+            }
+        });
+        colPrice.setCellFactory(new Callback <TableColumn<ItemDTO, String>, TableCell<ItemDTO, String>>() {
+            @Override
+            public TableCell<ItemDTO, String> call(TableColumn<ItemDTO, String> p) {
+                TableCell<ItemDTO, String> tc = new TableCell<ItemDTO, String>(){
+                    @Override
+                    public void updateItem(String item, boolean empty) {
+                        if (item != null){
+                            setText(item);
+                        }
+                    }
+                };
+                tc.setAlignment(Pos.CENTER);
+                return tc;
+            }
+        });
+        colDescription.setCellFactory(new Callback <TableColumn<ItemDTO, String>, TableCell<ItemDTO, String>>() {
+            @Override
+            public TableCell<ItemDTO, String> call(TableColumn<ItemDTO, String> p) {
+                TableCell<ItemDTO, String> tc = new TableCell<ItemDTO, String>(){
+                    @Override
+                    public void updateItem(String item, boolean empty) {
+                        if (item != null){
+                            setText(item);
+                        }
+                    }
+                };
+                tc.setAlignment(Pos.TOP_LEFT);
+                return tc;
+            }
+        });
+
+
         colItemId.setCellValueFactory(new PropertyValueFactory<>("itemCode"));
         colName.setCellValueFactory(new PropertyValueFactory<>("foodName"));
         colPrice.setCellValueFactory(new PropertyValueFactory<>("Price"));
-        //colImage.setCellValueFactory(new PropertyValueFactory<>());
+
+        colImage.setCellValueFactory(new PropertyValueFactory<>("imageView"));
         colDescription.setCellValueFactory(new PropertyValueFactory<>("Description"));
 
 
-        loadAllItems();
-//
     }
     public void tblItemOnAction(MouseEvent mouseEvent) {
         loadAllItems();
@@ -113,14 +167,9 @@ public class AddItemFormController implements Initializable{
                 new FileChooser.ExtensionFilter("*.png", "*.png");
         FileChooser.ExtensionFilter extFilterjpg =
                 new FileChooser.ExtensionFilter("*.jpg", "*.jpg");
-        FileChooser.ExtensionFilter extFilterJPG =
-                new FileChooser.ExtensionFilter("*.JPG", "*.JPG");
-
-        FileChooser.ExtensionFilter extFilterPNG =
-                new FileChooser.ExtensionFilter("*.PNG", "*.PNG");
 
         fileChooser.getExtensionFilters()
-                .addAll(extFilterJPG, extFilterjpg, extFilterPNG, extFilterpng);
+                .addAll( extFilterjpg,  extFilterpng);
 
         //Show open file dialog
         try{
@@ -159,7 +208,9 @@ public class AddItemFormController implements Initializable{
             pStmt.executeUpdate();
 
             // closing connection
+            loadAllItems();
             con.close();
+
             flag=1;
 
 
@@ -171,6 +222,7 @@ public class AddItemFormController implements Initializable{
         if(flag==1)
         {
             System.out.println("Added");
+
             return true;
 
         }
@@ -193,41 +245,24 @@ public class AddItemFormController implements Initializable{
 
             boolean isAdded = addItem();
 
-
-            String tilte;
-            String message;
-            //tray.notification.TrayNotification tray = new tray.notification.TrayNotification();
-            // AnimationType type = AnimationType.POPUP;
-            //tray.setAnimationType(type);
             if (isAdded) {
-                (new Alert(Alert.AlertType.CONFIRMATION, "Item Added Successfully", new ButtonType[]{ButtonType.OK})).show();
-                tilte = "Added Successful";
-                message = "Item Is Added";
-                //tray.setTitle(tilte);
-                // tray.setMessage(message);
-                // tray.setNotificationType(NotificationType.SUCCESS);
-                //loadAllItems();
+                Notifications N= Notifications.create()
+                        .text("Item Added Successfully")
+                        .hideAfter(Duration.seconds(1))
+                        .position(Pos.TOP_CENTER);
+                N.darkStyle();
+                N.show();
             } else {
-                (new Alert(Alert.AlertType.ERROR, "Item Not Added ", new ButtonType[]{ButtonType.OK})).show();
-                tilte = "Added Un Successful";
-                message = "Item Is Not Added";
-                // tray.setTitle(tilte);
-                // tray.setMessage(message);
-                // tray.setNotificationType(NotificationType.ERROR);
-            }
-            // tray.showAndDismiss(Duration.millis(3000));
+                Notifications N= Notifications.create()
+                        .text("Item Not Added ")
+                        .hideAfter(Duration.seconds(1))
+                        .position(Pos.TOP_CENTER);
+                N.darkStyle();
+                N.show();                        }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException ex) {
-            String tilte = "Item Is Already On The Sever";
-            String message = "Item Is Not Added";
-            //  tray.notification.TrayNotification tray = new TrayNotification();
-            //  AnimationType type = AnimationType.POPUP;
-            // tray.setAnimationType(type);
-            // tray.setTitle(tilte);
-            // tray.setMessage(message);
-            //  tray.setNotificationType(NotificationType.NOTICE);
-            //  tray.showAndDismiss(Duration.millis(3000));
+
         }
 
 
@@ -253,14 +288,15 @@ public class AddItemFormController implements Initializable{
 
                     pStmt.setObject(1, food);
                     pStmt.setObject(2, unitPrice);
-                    pStmt.setBlob(3, InputStream.nullInputStream());
+                    pStmt.setBlob(3, imageFile,imageFile.available());
                     pStmt.setObject(4, Description);
                     pStmt.setObject(5, itemCode);
                     pStmt.executeUpdate();
 
-
+                    loadAllItems();
                     // closing connection
                     con.close();
+
                     flag=1;
 
 
@@ -272,6 +308,7 @@ public class AddItemFormController implements Initializable{
                 if(flag==1)
                 {
                     System.out.println("Updated");
+
                     return true;
 
                 }
@@ -290,26 +327,29 @@ public class AddItemFormController implements Initializable{
             String message;
 
             if (updateItem) {
-                (new Alert(Alert.AlertType.CONFIRMATION, "Item Update Successfully", new ButtonType[]{ButtonType.OK})).show();
-                tilte = "Update Successful";
-                message = "Item Is Updated";
+                Notifications N= Notifications.create()
+                        .text("Item Updated Successfully")
+                        .hideAfter(Duration.seconds(1))
+                        .position(Pos.TOP_CENTER);
+                N.darkStyle();
+                N.show();
 
 
                 //loadAllItems();
             } else {
-                (new Alert(Alert.AlertType.ERROR, "Item Not Update", new ButtonType[]{ButtonType.OK})).show();
-                tilte = "Update Un Successful";
-                message = "Item Is Not Updated";
-
-//                tray.setTitle(tilte);
-//                tray.setMessage(message);
-//                tray.setNotificationType(NotificationType.ERROR);
+                Notifications N= Notifications.create()
+                        .text("Item Not Updated")
+                        .hideAfter(Duration.seconds(1))
+                        .position(Pos.TOP_CENTER);
+                N.darkStyle();
+                N.show();
             }
 
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
         //Customer Update Is Over(With Notification)
+         //   loadAllItems();
     }
 
 
@@ -332,7 +372,7 @@ public class AddItemFormController implements Initializable{
 
                 pStmt.executeUpdate();
 
-
+                loadAllItems();
                 // closing connection
                 con.close();
                 flag=1;
@@ -345,6 +385,7 @@ public class AddItemFormController implements Initializable{
 
             if(flag==1)
             {
+
                 System.out.println("Deleted");
                 return true;
 
@@ -357,6 +398,7 @@ public class AddItemFormController implements Initializable{
 
 
         }
+        @FXML
         public void deleteOnAction(ActionEvent actionEvent) {
 
         try {
@@ -365,123 +407,31 @@ public class AddItemFormController implements Initializable{
             String message;
 
             if (isDelete) {
-                (new Alert(Alert.AlertType.CONFIRMATION, "Item Delete Successfully", new ButtonType[]{ButtonType.OK})).show();
-                tilte = "Delete Success";
-                message = "Item Is Deleted";
-               //loadAllItems();
+                Notifications N= Notifications.create()
+                        .text("Item Deleted Successfully")
+                        .hideAfter(Duration.seconds(1))
+                        .position(Pos.TOP_CENTER);
+                N.darkStyle();
+                N.show();
             } else {
-                (new Alert(Alert.AlertType.ERROR, "Item Not Delete", new ButtonType[]{ButtonType.OK})).show();
-                tilte = "Item Not Found";
-                message = "Sorry";
+                Notifications N= Notifications.create()
+                        .text("Item Is Not Deleted")
+                        .hideAfter(Duration.seconds(1))
+                        .position(Pos.TOP_CENTER);
+                N.darkStyle();
+                N.show();
             }
         } catch (SQLException | ClassNotFoundException e1) {
             e1.printStackTrace();
         }
+
     }
-//
 
-//
-//        ItemDTO searchItem(String id) throws ClassNotFoundException, SQLException{
-//
-//        }
-//
-//        ObservableList<ItemDTO> getAllItem() throws ClassNotFoundException, SQLException{
-//
-//        }
-//
-//        int getRowCount()throws ClassNotFoundException,SQLException{
-//
-//        }
-
-
-
-
-//
-
-//
-//    private void loadAllItems() {
-//        try {
-//            ObservableList<ItemDTO> allItem = itemBO.getAllItem();
-//            tblItem.setItems(allItem);
-//        } catch (ClassNotFoundException | SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//
-//    public void setTxtItemId() {
-//        try {
-//            int id = this.itemBO.getRowCount();
-//            if (id == 0) {
-//                this.txtItemId.setText("I001");
-//            }
-//
-//            if (id > 0 && id <= 8) {
-//                this.txtItemId.setText("I00" + (id + 1));
-//            }
-//
-//            if (id >= 9 && id <= 98) {
-//                this.txtItemId.setText("I0" + (id + 1));
-//            }
-//
-//            if (id >= 99) {
-//                this.txtItemId.setText("I" + (id + 1));
-//            }
-//        } catch (ClassNotFoundException | SQLException var2) {
-//            var2.printStackTrace();
-//        }
-//        //customer Count Code
-//    }
-//
-//    public void searchOnAction(ActionEvent actionEvent) {
-//        try {
-//            String itemID = txtItemId.getText();
-//            ItemDTO searchItem = itemBO.searchItem(itemID);
-//            if (searchItem != null) {
-//                txtItemId.setText(searchItem.getItemCode());
-//                txtPackSize.setText(searchItem.getPackSize());
-//                TxtQty.setText(searchItem.getQtyOnHand());
-//                txtDescription.setText(searchItem.getDescription());
-//                txtUnitPrice.setText(searchItem.getUnitPrice());
-//                txtSupID.setText(searchItem.getSuplayerID());
-//                txtBatchId.setText(searchItem.getBatchID());
-//                String tilte = "Item Searched ";
-//                String message = "Item Is " + "" + txtItemId.getText() + "Found";
-//                tray.notification.TrayNotification tray = new TrayNotification();
-//                AnimationType type = AnimationType.POPUP;
-//
-//                tray.setAnimationType(type);
-//                tray.setTitle(tilte);
-//                tray.setMessage(message);
-//                tray.setNotificationType(NotificationType.SUCCESS);
-//                tray.showAndDismiss(Duration.millis(3000));
-//
-//
-//            } else {
-//                String tilte = "Searched Item Is Not Found";
-//                String message = "Try Again";
-//                tray.notification.TrayNotification tray = new TrayNotification();
-//                AnimationType type = AnimationType.POPUP;
-//
-//                tray.setAnimationType(type);
-//                tray.setTitle(tilte);
-//                tray.setMessage(message);
-//                tray.setNotificationType(NotificationType.ERROR);
-//                tray.showAndDismiss(Duration.millis(3000));
-//            }
-//
-//        } catch (SQLException | ClassNotFoundException throwables) {
-//            throwables.printStackTrace();
-//        }
-//        //Item Search Is Over(With Notification)
-//    }
-//
-//
-
-//
-
-//
-//    public void tblItemOnAction(MouseEvent mouseEvent) {
-//
-//    }
+    @FXML
+    private void back()
+    {
+        AdminViewController a = new AdminViewController();
+        AD.getScene().getWindow().hide();
+        a.BacktoAdminView();
+    }
 }

@@ -1,26 +1,28 @@
 package com.delicacy.delicacy;
 
 
-
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.sql.*;
-import java.util.Properties;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static javafx.application.Platform.exit;
 
 
 public class dashboard {
@@ -61,6 +63,8 @@ public class dashboard {
     @FXML
     BorderPane cl;
 
+    Stage stage = new Stage();
+    Parent root = null;
     @FXML
     private void admin_signup_submit (ActionEvent event) throws ClassNotFoundException {
        //This function will execute when admin_signup submit button is pressed
@@ -73,16 +77,17 @@ public class dashboard {
 
         //If password and confirm password don't match again signup page will load
         if (!pass.equals(c_pass)) {
-            Stage stage = new Stage();
-            Parent root = null;
+
             try {
                 root = FXMLLoader.load(getClass().getResource("view/adminSignup.fxml"));
             } catch (IOException ex) {
                 Logger.getLogger(splashscreen.class.getName()).log(Level.SEVERE, null, ex);
             }
             Scene scene = new Scene(root);
+            stage.setResizable(false);
+            stage.initStyle(StageStyle.UTILITY);
             stage.setScene(scene);
-            stage.setTitle("Confirm password did not match");
+            stage.setTitle("Confirm Password Did Not Match");
             stage.show();
             as.getScene().getWindow().hide();
         }
@@ -90,17 +95,18 @@ public class dashboard {
 
         //If name and email field is empty again signup page will load
 
-        else if (name_f.length()==0 || name_l.length()==0 || em.length()==0) {
-            Stage stage = new Stage();
-            Parent root = null;
+        else if (name_f.length()==0 || name_l.length()==0 || em.length()==0 ||em.contains("@")==false) {
+
             try {
                 root = FXMLLoader.load(getClass().getResource("view/adminSignup.fxml"));
             } catch (IOException ex) {
                 Logger.getLogger(splashscreen.class.getName()).log(Level.SEVERE, null, ex);
             }
             Scene scene = new Scene(root);
+            stage.setResizable(false);
+            stage.initStyle(StageStyle.UTILITY);
             stage.setScene(scene);
-            stage.setTitle("Name or Email is empty");
+            stage.setTitle("Name or Email is Empty");
             stage.show();
             as.getScene().getWindow().hide();
         }
@@ -113,7 +119,7 @@ public class dashboard {
                         "apike5c6fiy1rsrajmzv",
                         "pscale_pw_9QXgibEIlGrneTReXBvzn80n9OV8HW53gPMndCpo2mB");
 
-                String sql = "select * from Admin_Details where Email=? and Password=?";
+                String sql = "select * from Admin_Details where Email=? and Password=SHA1(?)";
 
                 PreparedStatement pStmt = con.prepareStatement(sql);
                 boolean flag = false;
@@ -124,25 +130,26 @@ public class dashboard {
 
                 ResultSet rs = pStmt.executeQuery();
                 flag=rs.next();
-                // System.out.println(flag);
+
 
                 if (flag == true) {
-                    Stage stage = new Stage();
-                    Parent root = null;
+
                     try {
                         root = FXMLLoader.load(getClass().getResource("view/adminSignup.fxml"));
                     } catch (IOException ex) {
                         Logger.getLogger(splashscreen.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     Scene scene = new Scene(root);
-                    stage.setTitle("Email exists, try different email");
+                    stage.setTitle("Email Exists, Try Different Email");
+                    stage.setResizable(false);
+                    stage.initStyle(StageStyle.UTILITY);
                     stage.setScene(scene);
                     stage.show();
                     as.getScene().getWindow().hide();
                 }
                 //If everything is ok then data will be inserted in database
                 else {
-                    PreparedStatement pStmt2 = con.prepareStatement("insert into Admin_Details values(?, ?, ?, ?)");
+                    PreparedStatement pStmt2 = con.prepareStatement("insert into Admin_Details values(?, ?, ?, SHA1(?))");
                     pStmt2.setString(1, name_f);
                     pStmt2.setString(2, name_l);
                     pStmt2.setString(3, em);
@@ -151,8 +158,7 @@ public class dashboard {
 
                     // closing connection
                     con.close();
-                    Stage stage = new Stage();
-                    Parent root = null;
+
                     try {
                         root = FXMLLoader.load(getClass().getResource("view/AdministratorView.fxml"));
                     } catch (IOException ex) {
@@ -161,7 +167,9 @@ public class dashboard {
 
 
                     Scene scene = new Scene(root);
-                    stage.setTitle("Hi");
+                    stage.setResizable(false);
+                    stage.initStyle(StageStyle.UTILITY);
+
                     stage.setScene(scene);
                     stage.show();
                     as.getScene().getWindow().hide();
@@ -185,16 +193,17 @@ public class dashboard {
 
 
         if (em.length()==0 || pass.length()==0) {
-            Stage stage = new Stage();
-            Parent root = null;
+
             try {
                 root = FXMLLoader.load(getClass().getResource("view/adminLogin.fxml"));
             } catch (IOException ex) {
                 Logger.getLogger(splashscreen.class.getName()).log(Level.SEVERE, null, ex);
             }
             Scene scene = new Scene(root);
+            stage.setResizable(false);
+            stage.initStyle(StageStyle.UTILITY);
             stage.setScene(scene);
-            stage.setTitle("Email or Password field is empty");
+            stage.setTitle("Email or Password Field Is Empty");
             stage.show();
             al.getScene().getWindow().hide();
         }
@@ -207,7 +216,7 @@ public class dashboard {
                         "apike5c6fiy1rsrajmzv",
                         "pscale_pw_9QXgibEIlGrneTReXBvzn80n9OV8HW53gPMndCpo2mB");
 
-                String sql = "select * from Admin_Details where Email=? and Password=?";
+                String sql = "select * from Admin_Details where Email=? and Password=SHA1(?)";
 
                 PreparedStatement pStmt = con.prepareStatement(sql);
                 boolean flag = false;
@@ -218,20 +227,20 @@ public class dashboard {
 
                 ResultSet rs = pStmt.executeQuery();
                 flag=rs.next();
-               // System.out.println(flag);
 
                 //Given email and password don't match with database then flag= 0 else flag =1
 
                 if (flag == false) {
-                    Stage stage = new Stage();
-                    Parent root = null;
+
                     try {
                         root = FXMLLoader.load(getClass().getResource("view/adminLogin.fxml"));
                     } catch (IOException ex) {
                         Logger.getLogger(splashscreen.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     Scene scene = new Scene(root);
-                    stage.setTitle("Email or Password is wrong");
+                    stage.setResizable(false);
+                    stage.initStyle(StageStyle.UTILITY);
+                    stage.setTitle("Email or Password Is Wrong");
                     stage.setScene(scene);
                     stage.show();
                     al.getScene().getWindow().hide();
@@ -239,17 +248,17 @@ public class dashboard {
                 else {
 
                     con.close();
-                    Stage stage = new Stage();
-                    Parent root = null;
+
                     try {
-                        root = FXMLLoader.load(getClass().getResource("view/addItemForm.fxml"));
+                        root = FXMLLoader.load(getClass().getResource("view/AdministratorView.fxml"));
                     } catch (IOException ex) {
                         Logger.getLogger(splashscreen.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
 
                     Scene scene = new Scene(root);
-                    stage.setTitle("Hi");
+                    stage.setResizable(false);
+                    stage.initStyle(StageStyle.UTILITY);
                     stage.setScene(scene);
                     stage.show();
                     al.getScene().getWindow().hide();
@@ -276,32 +285,34 @@ public class dashboard {
         //If password and confirm password don't match login signup page will load
 
         if (!pass.equals(c_pass)) {
-            Stage stage = new Stage();
-            Parent root = null;
+
             try {
                 root = FXMLLoader.load(getClass().getResource("view/signupCustomer.fxml"));
             } catch (IOException ex) {
                 Logger.getLogger(splashscreen.class.getName()).log(Level.SEVERE, null, ex);
             }
             Scene scene = new Scene(root);
+            stage.setResizable(false);
+            stage.initStyle(StageStyle.UTILITY);
             stage.setScene(scene);
-            stage.setTitle("Confirm password did not match");
+            stage.setTitle("Confirm Password Did Not Match");
             stage.show();
             cs.getScene().getWindow().hide();
         }
         //If name and email field is empty again signup page will load
 
-        else if (name_f.length()==0 || name_l.length()==0 || em.length()==0) {
-            Stage stage = new Stage();
-            Parent root = null;
+        else if (name_f.length()==0 || name_l.length()==0 || em.length()==0||em.contains("@")==false) {
+
             try {
                 root = FXMLLoader.load(getClass().getResource("view/signupCustomer.fxml"));
             } catch (IOException ex) {
                 Logger.getLogger(splashscreen.class.getName()).log(Level.SEVERE, null, ex);
             }
             Scene scene = new Scene(root);
+            stage.setResizable(false);
+            stage.initStyle(StageStyle.UTILITY);
             stage.setScene(scene);
-            stage.setTitle("Name or Email is empty");
+            stage.setTitle("Name or Email Is Empty");
             stage.show();
             cs.getScene().getWindow().hide();
         }
@@ -316,7 +327,7 @@ public class dashboard {
                         "apike5c6fiy1rsrajmzv",
                         "pscale_pw_9QXgibEIlGrneTReXBvzn80n9OV8HW53gPMndCpo2mB");
 
-                String sql = "select * from Customer_Details where Email=? and Password=?";
+                String sql = "select * from Customer_Details where Email=? and Password=SHA1(?)";
 
                 PreparedStatement pStmt = con.prepareStatement(sql);
                 boolean flag = false;
@@ -338,7 +349,9 @@ public class dashboard {
                         Logger.getLogger(splashscreen.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     Scene scene = new Scene(root);
-                    stage.setTitle("Email exists, try different email");
+                    stage.setResizable(false);
+                    stage.initStyle(StageStyle.UTILITY);
+                    stage.setTitle("Email Exists, Try Different Email");
                     stage.setScene(scene);
                     stage.show();
                     cs.getScene().getWindow().hide();
@@ -346,7 +359,7 @@ public class dashboard {
 
                 //If everything is ok then data will be inserted in database
                 else {
-                    PreparedStatement pStmt2 = con.prepareStatement("insert into Customer_Details values(?, ?, ?, ?)");
+                    PreparedStatement pStmt2 = con.prepareStatement("insert into Customer_Details values(?, ?, ?, SHA1(?))");
                     pStmt2.setString(1, name_f);
                     pStmt2.setString(2, name_l);
                     pStmt2.setString(3, em);
@@ -365,7 +378,8 @@ public class dashboard {
 
 
                     Scene scene = new Scene(root);
-                    stage.setTitle("Hi");
+                    stage.setResizable(false);
+                    stage.initStyle(StageStyle.UTILITY);
                     stage.setScene(scene);
                     stage.show();
                     cs.getScene().getWindow().hide();
@@ -386,16 +400,17 @@ public class dashboard {
         String pass = c_l_password.getText();
        //If email and password is empty again login page will be loaded
         if (em.length()==0 || pass.length()==0) {
-            Stage stage = new Stage();
-            Parent root = null;
+
             try {
                 root = FXMLLoader.load(getClass().getResource("view/addItemForm.fxml"));
             } catch (IOException ex) {
                 Logger.getLogger(splashscreen.class.getName()).log(Level.SEVERE, null, ex);
             }
             Scene scene = new Scene(root);
+            stage.setResizable(false);
+            stage.initStyle(StageStyle.UTILITY);
             stage.setScene(scene);
-            stage.setTitle("Email or Password field is empty");
+            stage.setTitle("Email or Password Field Is Empty");
             stage.show();
             cl.getScene().getWindow().hide();
         }
@@ -408,7 +423,7 @@ public class dashboard {
                         "apike5c6fiy1rsrajmzv",
                         "pscale_pw_9QXgibEIlGrneTReXBvzn80n9OV8HW53gPMndCpo2mB");
 
-                String sql = "select * from Customer_Details where Email=? and Password=?";
+                String sql = "select * from Customer_Details where Email=? and Password=SHA1(?)";
 
                 PreparedStatement pStmt = con.prepareStatement(sql);
                 boolean flag = false;
@@ -423,15 +438,16 @@ public class dashboard {
 
                 //If given email and password don't match with database then again login page will be loaded
                 if (flag == false) {
-                    Stage stage = new Stage();
-                    Parent root = null;
+
                     try {
                         root = FXMLLoader.load(getClass().getResource("view/loginCustomer.fxml"));
                     } catch (IOException ex) {
                         Logger.getLogger(splashscreen.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     Scene scene = new Scene(root);
-                    stage.setTitle("Email or Password is wrong");
+                    stage.setResizable(false);
+                    stage.initStyle(StageStyle.UTILITY);
+                    stage.setTitle("Email or Password Is Wrong");
                     stage.setScene(scene);
                     stage.show();
                     cl.getScene().getWindow().hide();
@@ -441,8 +457,7 @@ public class dashboard {
                 else {
 
                     con.close();
-                    Stage stage = new Stage();
-                    Parent root = null;
+
                     try {
                         root = FXMLLoader.load(getClass().getResource("view/AdministratorView.fxml"));
                     } catch (IOException ex) {
@@ -451,7 +466,8 @@ public class dashboard {
 
 
                     Scene scene = new Scene(root);
-                    stage.setTitle("Hi");
+                    stage.setResizable(false);
+                    stage.initStyle(StageStyle.UTILITY);
                     stage.setScene(scene);
                     stage.show();
                     cl.getScene().getWindow().hide();
@@ -470,14 +486,15 @@ public class dashboard {
     private void admin_signup (ActionEvent event) throws ClassNotFoundException {
 
         //After clicking signup option in dashboard this function will occur
-        Stage stage = new Stage();
-        Parent root = null;
+
         try {
             root = FXMLLoader.load(getClass().getResource("view/adminSignup.fxml"));
         } catch (IOException ex) {
             Logger.getLogger(splashscreen.class.getName()).log(Level.SEVERE, null, ex);
         }
         Scene scene = new Scene(root);
+        stage.setResizable(false);
+        stage.initStyle(StageStyle.UTILITY);
         stage.setScene(scene);
         stage.show();
         db.getScene().getWindow().hide();
@@ -487,14 +504,15 @@ public class dashboard {
     private void admin_login (ActionEvent event) throws ClassNotFoundException {
 
         //After clicking login option in dashboard this function will occur
-        Stage stage = new Stage();
-        Parent root = null;
+
         try {
             root = FXMLLoader.load(getClass().getResource("view/adminLogin.fxml"));
         } catch (IOException ex) {
             Logger.getLogger(splashscreen.class.getName()).log(Level.SEVERE, null, ex);
         }
         Scene scene = new Scene(root);
+        stage.setResizable(false);
+        stage.initStyle(StageStyle.UTILITY);
         stage.setScene(scene);
         stage.show();
         db.getScene().getWindow().hide();
@@ -504,14 +522,15 @@ public class dashboard {
     private void admin_login2 (MouseEvent event) throws ClassNotFoundException {
 
         //After clicking login option in adminSignup.fxml as user already has account, this function will occur
-        Stage stage = new Stage();
-        Parent root = null;
+
         try {
             root = FXMLLoader.load(getClass().getResource("view/adminLogin.fxml"));
         } catch (IOException ex) {
             Logger.getLogger(splashscreen.class.getName()).log(Level.SEVERE, null, ex);
         }
         Scene scene = new Scene(root);
+        stage.setResizable(false);
+        stage.initStyle(StageStyle.UTILITY);
         stage.setScene(scene);
         stage.show();
         as.getScene().getWindow().hide();
@@ -521,47 +540,55 @@ public class dashboard {
     @FXML
     private void customer_signup (ActionEvent event) throws ClassNotFoundException {
         //After clicking signup option in dashboard this function will occur
-        Stage stage = new Stage();
-        Parent root = null;
+
         try {
             root = FXMLLoader.load(getClass().getResource("view/signupCustomer.fxml"));
         } catch (IOException ex) {
             Logger.getLogger(splashscreen.class.getName()).log(Level.SEVERE, null, ex);
         }
         Scene scene = new Scene(root);
+        stage.setResizable(false);
+        stage.initStyle(StageStyle.UTILITY);
         stage.setScene(scene);
         stage.show();
         db.getScene().getWindow().hide();
     }
     @FXML
-    private void customer_login (ActionEvent event) throws ClassNotFoundException {
+    public void customer_login (ActionEvent event) throws ClassNotFoundException {
         //After clicking login option in dashboard this function will occur
-        Stage stage = new Stage();
-        Parent root = null;
+
         try {
             root = FXMLLoader.load(getClass().getResource("view/loginCustomer.fxml"));
         } catch (IOException ex) {
             Logger.getLogger(splashscreen.class.getName()).log(Level.SEVERE, null, ex);
         }
         Scene scene = new Scene(root);
+        stage.setResizable(false);
+        stage.initStyle(StageStyle.UTILITY);
         stage.setScene(scene);
         stage.show();
         as.getScene().getWindow().hide();
     }
     @FXML
-    private void customer_login2 (MouseEvent event) throws ClassNotFoundException {
+    public void customer_login2 (MouseEvent event) throws ClassNotFoundException {
         //After clicking login option in adminSignup.fxml as user already has account, this function will occur
-        Stage stage = new Stage();
-        Parent root = null;
+
         try {
             root = FXMLLoader.load(getClass().getResource("view/loginCustomer.fxml"));
         } catch (IOException ex) {
             Logger.getLogger(splashscreen.class.getName()).log(Level.SEVERE, null, ex);
         }
         Scene scene = new Scene(root);
+        stage.setResizable(false);
+        stage.initStyle(StageStyle.UTILITY);
         stage.setScene(scene);
         stage.show();
         cs.getScene().getWindow().hide();
+    }
+    @FXML
+    private void Exit()
+    {
+        exit();
     }
 
 }
