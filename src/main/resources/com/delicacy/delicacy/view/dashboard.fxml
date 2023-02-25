@@ -44,12 +44,12 @@
             </ImageView>
          </graphic>
       </MenuButton>
-        <Button alignment="CENTER" contentDisplay="BOTTOM" layoutX="738.0" layoutY="142.0" mnemonicParsing="false" opacity="0.76" prefHeight="261.0" prefWidth="148.0" style="-fx-background-color: #c18640;" text="Exit" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
+        <Button id="Exit" onMouseClicked="#Exit" alignment="CENTER" contentDisplay="BOTTOM" layoutX="738.0" layoutY="142.0" mnemonicParsing="false" opacity="0.76" prefHeight="261.0" prefWidth="148.0" style="-fx-background-color: #c18640;" text="Exit" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
             <font>
                 <Font name="Microsoft JhengHei" size="19.0" />
             </font>
             <graphic>
-                <ImageView disable="true" fitHeight="72.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView onMouseClicked="#Exit" disable="true" fitHeight="72.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@../Images/arrow.png" />
                     </image>
