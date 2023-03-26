@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="AD" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="510.0" prefWidth="900.0" style="-fx-background-color: #b02510;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.delicacy.delicacy.CartController">
+    <children>
+
+        <Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="21.0" prefWidth="900.0" style="-fx-background-color: #c18640;">
+            <children>
+                <Button fx:id="Back" mnemonicParsing="false" onAction="#Cartback" prefHeight="21.0" prefWidth="46.0" text="Back">
+                    <font>
+                        <Font size="8.0" />
+                    </font>
+                </Button>
+            </children></Pane>
+        <TableView fx:id="tblchk" layoutX="14.0" layoutY="128.0" prefHeight="290.0" prefWidth="617.0">
+            <columns>
+                <TableColumn fx:id="colserial" prefWidth="137.71429824829102" text="Serial" />
+                <TableColumn fx:id="colITEM" prefWidth="210.28573608398438" text="Item " />
+                <TableColumn fx:id="colname" prefWidth="142.85714721679688" text="Name" />
+                <TableColumn fx:id="colprice" minWidth="0.0" prefWidth="124.79998168945315" text="Price" />
+            </columns>
+        </TableView>
+      <Label alignment="CENTER" layoutX="14.0" layoutY="48.0" prefHeight="46.0" prefWidth="178.0" style="-fx-background-color: white;" text="Checkout">
+         <font>
+            <Font name="System Bold" size="32.0" />
+         </font>
+      </Label>
+      <Label layoutX="524.0" layoutY="431.0" text="Total :">
+         <font>
+            <Font name="System Bold" size="36.0" />
+         </font>
+      </Label>
+      <Label fx:id="totalp" alignment="CENTER" layoutX="664.0" layoutY="431.0" prefHeight="54.0" prefWidth="206.0">
+         <font>
+            <Font name="System Bold" size="36.0" />
+         </font>
+      </Label>
+      <VBox layoutX="661.0" layoutY="123.0" prefHeight="290.0" prefWidth="222.0" style="-fx-background-color: white;">
+         <children>
+            <ImageView fx:id="imgmb" fitHeight="150.0" fitWidth="222.0" onMouseClicked="#mobilePayment" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Images/mobile.jpg" />
+               </image></ImageView>
+            <Separator prefWidth="200.0" style="-fx-background-color: Black;" />
+            <ImageView fx:id="imgcod" fitHeight="149.0" fitWidth="222.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Images/cod.png" />
+               </image></ImageView>
+         </children>
+      </VBox>
+    </children>
+</AnchorPane>
